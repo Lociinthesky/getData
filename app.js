@@ -1,28 +1,28 @@
-// $('#button').click(()=>{
+$('#button').click(()=>{
 
-// 	const xhr = new XMLHttpRequest();
+	let xhr = new XMLHttpRequest();
 
-// 	xhr.open('GET', 'data.txt', true);
+	xhr.open('GET', 'data.txt', true);
 
 
-// 	xhr.onload = function (){
-// 		if ( this.status === 200 ) {
-// 			$('#output').html(`<h1>${this.responseText}</h1>`)
-// 		}
-// 	}
+	xhr.onload = function (){e
+		if ( this.status === 200 ) {
+			$('#output').html(`<h1>${this.responseText}</h1>`)
+		}
+	}
 
-// 	xhr.onerror = function(){
-// 		console.log('request error..')
-// 	}
+	xhr.onerror = function(){
+		console.log('request error..')
+	}
 
-// 	xhr.send();
-// });
+	xhr.send();
+});
 
 $('#button2').click(loadCustomer);
 
 function loadCustomer(e) {
 
-	const xhr = new XMLHttpRequest();
+	let xhr = new XMLHttpRequest();
 
 	xhr.open('GET', 'customer.json', true);
 
@@ -51,7 +51,7 @@ function loadCustomer(e) {
 $('#button3').click(loadCustomers);
 
 function loadCustomers(e) {
-	const xhr = new XMLHttpRequest();
+	let xhr = new XMLHttpRequest();
 
 	xhr.open('GET', 'customers.json', true);
 
@@ -71,7 +71,7 @@ function loadCustomers(e) {
 				</ul><br>`;
 			})
 
-			document.getElementById('customers').innerHTML = output;
+			//document.getElementById('customers').innerHTML = output;
 		}
 	};
 
@@ -83,6 +83,36 @@ function loadCustomers(e) {
 
 
 
-$('.getJokes').click(()=>{
-	console.log('get jokes');
-})
+document.querySelector('.getJokes').addEventListener('click', getJokes);
+	//let numJokes = $('#number').value; 
+
+function getJokes(e) {
+
+	let numJokes = document.querySelector('input[type="number"]').value;
+
+	let xhr = new XMLHttpRequest();
+
+	xhr.open('GET', `http://api.icndb.com/jokes/random/${numJokes}`, true)
+
+	xhr.onload = function() {
+		if ( this.status === 200 ) {
+			let response = JSON.parse(this.responseText);
+			console.log(response);
+			//look at the response that is log to understand the following
+
+			let output = '';
+
+			if ( response.type === 'success' ) {
+				response.value.forEach(function(joke){
+					output += `<li>${joke.joke}</li>`
+				})
+			} else {
+				output += `<li>Something went wrong</li>`;
+			}
+
+			document.querySelector('.jokes').innerHTML = output;
+		}
+	}
+	xhr.send();
+	e.preventDefault();
+}
