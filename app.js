@@ -80,3 +80,9 @@ function loadCustomers(e) {
 	}
 	xhr.send();
 }
+
+
+
+$('.getJokes').click(()=>{
+	console.log('get jokes');
+})
